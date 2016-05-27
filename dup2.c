@@ -13,7 +13,7 @@ int main()
 
         printf("sfd = [%d]\n", sfd);
 
-        testfd = open("./temp",O_CREAT | O_RDWR | O_APPEND);
+        testfd = open("./temp",O_CREAT | O_RDWR | O_APPEND, 0666);
         if (-1 == testfd)
         {
                 printf("open file error.\n");
@@ -27,7 +27,7 @@ int main()
         }
 
         /* 此时向stdout写入应该输出到文件 */
-        write(STDOUT_FILENO,"file\n",5);
+        write(STDOUT_FILENO,"file5\n",5);
 
         /* 恢复stdout */
         if (-1 != dup2(sfd,STDOUT_FILENO) ) {
