@@ -1,0 +1,349 @@
+40,41c40,41
+< #define PTW32_VERSION 2,8,0,0
+< #define PTW32_VERSION_STRING "2, 8, 0, 0\0"
+---
+> #define PTW32_VERSION 2,9,1,0
+> #define PTW32_VERSION_STRING "2, 9, 1, 0\0"
+84c84
+< #ifndef RC_INVOKED
+---
+> #if !defined(RC_INVOKED)
+107c107
+< #if !defined(PTW32_LEVEL)
+---
+> #if ( defined(_POSIX_C_SOURCE) && _POSIX_C_SOURCE >= 200112 )  || !defined(PTW32_LEVEL)
+112c112
+< #ifdef _UWIN
+---
+> #if defined(_UWIN)
+115c115
+< #   undef HAVE_CONFIG_H
+---
+> #   undef HAVE_PTW32_CONFIG_H
+193c193
+< #if defined(__MINGW32__) && defined(__cplusplus)
+---
+> #if (defined(__MINGW64__) || defined(__MINGW32__)) && defined(__cplusplus)
+197c197
+< #ifdef PTW32_INCLUDE_WINDOWS_H
+---
+> #if defined(PTW32_INCLUDE_WINDOWS_H)
+205a206
+> typedef unsigned long ULONG_PTR;
+213c214
+< #if HAVE_CONFIG_H
+---
+> #if defined(HAVE_PTW32_CONFIG_H)
+215c216
+< #endif /* HAVE_CONFIG_H */
+---
+> #endif /* HAVE_PTW32_CONFIG_H */
+217c218
+< #ifndef NEED_FTIME
+---
+> #if !defined(NEED_FTIME)
+223c224
+< #if HAVE_SIGNAL_H
+---
+> #if defined(HAVE_SIGNAL_H)
+227d227
+< #include <setjmp.h>
+243c243
+< #ifndef PTW32_CONFIG_H
+---
+> #if !defined(PTW32_CONFIG_H)
+248c248,251
+< #  if defined(_UWIN) || defined(__MINGW32__)
+---
+> #  if defined(__MINGW64__)
+> #    define HAVE_STRUCT_TIMESPEC
+> #    define HAVE_MODE_T
+> #  elif defined(_UWIN) || defined(__MINGW32__)
+258c261
+< #ifdef NEED_ERRNO
+---
+> #if defined(NEED_ERRNO)
+268c271
+< #ifndef ENOTSUP
+---
+> #if !defined(ENOTSUP)
+272,273c275,276
+< #ifndef ETIMEDOUT
+< #  define ETIMEDOUT 10060     /* This is the value in winsock.h. */
+---
+> #if !defined(ETIMEDOUT)
+> #  define ETIMEDOUT 10060 /* Same as WSAETIMEDOUT */
+276c279
+< #ifndef ENOSYS
+---
+> #if !defined(ENOSYS)
+280,281c283,284
+< #ifndef EDEADLK
+< #  ifdef EDEADLOCK
+---
+> #if !defined(EDEADLK)
+> #  if defined(EDEADLOCK)
+287a291,298
+> /* POSIX 2008 - related to robust mutexes */
+> #if !defined(EOWNERDEAD)
+> #  define EOWNERDEAD 43
+> #endif
+> #if !defined(ENOTRECOVERABLE)
+> #  define ENOTRECOVERABLE 44
+> #endif
+> 
+294,295c305,306
+< #ifndef PTW32_INCLUDE_WINDOWS_H
+< #ifndef HANDLE
+---
+> #if !defined(PTW32_INCLUDE_WINDOWS_H)
+> #if !defined(HANDLE)
+299c310
+< #ifndef DWORD
+---
+> #if !defined(DWORD)
+305,306c316,319
+< #ifndef HAVE_STRUCT_TIMESPEC
+< #define HAVE_STRUCT_TIMESPEC 1
+---
+> #if !defined(HAVE_STRUCT_TIMESPEC)
+> #define HAVE_STRUCT_TIMESPEC
+> #if !defined(_TIMESPEC_DEFINED)
+> #define _TIMESPEC_DEFINED
+308c321
+<         long tv_sec;
+---
+>         time_t tv_sec;
+310a324
+> #endif /* _TIMESPEC_DEFINED */
+313c327
+< #ifndef SIG_BLOCK
+---
+> #if !defined(SIG_BLOCK)
+317c331
+< #ifndef SIG_UNBLOCK 
+---
+> #if !defined(SIG_UNBLOCK)
+321c335
+< #ifndef SIG_SETMASK
+---
+> #if !defined(SIG_SETMASK)
+325c339
+< #ifdef __cplusplus
+---
+> #if defined(__cplusplus)
+421c435
+< #define _POSIX_THREADS 200112L
+---
+> #define _POSIX_THREADS 200809L
+424c438
+< #define _POSIX_READER_WRITER_LOCKS 200112L
+---
+> #define _POSIX_READER_WRITER_LOCKS 200809L
+427c441
+< #define _POSIX_SPIN_LOCKS 200112L
+---
+> #define _POSIX_SPIN_LOCKS 200809L
+430c444
+< #define _POSIX_BARRIERS 200112L
+---
+> #define _POSIX_BARRIERS 200809L
+433c447
+< #define _POSIX_THREAD_SAFE_FUNCTIONS 200112L
+---
+> #define _POSIX_THREAD_SAFE_FUNCTIONS 200809L
+436c450
+< #define _POSIX_THREAD_ATTR_STACKSIZE 200112L
+---
+> #define _POSIX_THREAD_ATTR_STACKSIZE 200809L
+526c540
+< #if __GNUC__ && ! defined (__declspec)
+---
+> #if defined(__GNUC__) && !defined(__declspec)
+531,532c545,546
+<  * When building the DLL code, you should define PTW32_BUILD so that
+<  * the variables/functions are exported correctly. When using the DLL,
+---
+>  * When building the library, you should define PTW32_BUILD so that
+>  * the variables/functions are exported correctly. When using the library,
+536,537c550,551
+< #ifndef PTW32_STATIC_LIB
+< #  ifdef PTW32_BUILD
+---
+> #if !defined(PTW32_STATIC_LIB)
+> #  if defined(PTW32_BUILD)
+632a647,652
+>  * pthread_mutexattr_{get,set}robust
+>  */
+>   PTHREAD_MUTEX_STALLED         = 0,  /* Default */
+>   PTHREAD_MUTEX_ROBUST          = 1,
+> 
+> /*
+645c665
+< #define PTHREAD_CANCELED       ((void *) -1)
+---
+> #define PTHREAD_CANCELED       ((void *)(size_t) -1)
+673,675c693,695
+< #define PTHREAD_MUTEX_INITIALIZER ((pthread_mutex_t) -1)
+< #define PTHREAD_RECURSIVE_MUTEX_INITIALIZER ((pthread_mutex_t) -2)
+< #define PTHREAD_ERRORCHECK_MUTEX_INITIALIZER ((pthread_mutex_t) -3)
+---
+> #define PTHREAD_MUTEX_INITIALIZER ((pthread_mutex_t)(size_t) -1)
+> #define PTHREAD_RECURSIVE_MUTEX_INITIALIZER ((pthread_mutex_t)(size_t) -2)
+> #define PTHREAD_ERRORCHECK_MUTEX_INITIALIZER ((pthread_mutex_t)(size_t) -3)
+683c703
+< #define PTHREAD_COND_INITIALIZER ((pthread_cond_t) -1)
+---
+> #define PTHREAD_COND_INITIALIZER ((pthread_cond_t)(size_t) -1)
+685c705
+< #define PTHREAD_RWLOCK_INITIALIZER ((pthread_rwlock_t) -1)
+---
+> #define PTHREAD_RWLOCK_INITIALIZER ((pthread_rwlock_t)(size_t) -1)
+687c707
+< #define PTHREAD_SPINLOCK_INITIALIZER ((pthread_spinlock_t) -1)
+---
+> #define PTHREAD_SPINLOCK_INITIALIZER ((pthread_spinlock_t)(size_t) -1)
+729c749
+< #ifdef __CLEANUP_SEH
+---
+> #if defined(__CLEANUP_SEH)
+756c776
+< #ifdef __CLEANUP_C
+---
+> #if defined(__CLEANUP_C)
+774c794
+< #ifdef __CLEANUP_CXX
+---
+> #if defined(__CLEANUP_CXX)
+902c922
+< PTW32_DLLPORT int PTW32_CDECL pthread_attr_getschedpolicy (pthread_attr_t *,
+---
+> PTW32_DLLPORT int PTW32_CDECL pthread_attr_getschedpolicy (const pthread_attr_t *,
+908c928
+< PTW32_DLLPORT int PTW32_CDECL pthread_attr_getinheritsched(pthread_attr_t * attr,
+---
+> PTW32_DLLPORT int PTW32_CDECL pthread_attr_getinheritsched(const pthread_attr_t * attr,
+922c942
+<                             void *(*start) (void *),
+---
+>                             void *(PTW32_CDECL *start) (void *),
+948c968
+<                           void (*init_routine) (void));
+---
+>                           void (PTW32_CDECL *init_routine) (void));
+954c974
+<                                  void (*routine) (void *),
+---
+>                                  ptw32_cleanup_callback_t routine,
+962c982
+<                                 void (*destructor) (void *));
+---
+>                                 void (PTW32_CDECL *destructor) (void *));
+987c1007,1014
+< PTW32_DLLPORT int PTW32_CDECL pthread_mutexattr_gettype (pthread_mutexattr_t * attr, int *kind);
+---
+> PTW32_DLLPORT int PTW32_CDECL pthread_mutexattr_gettype (const pthread_mutexattr_t * attr, int *kind);
+> 
+> PTW32_DLLPORT int PTW32_CDECL pthread_mutexattr_setrobust(
+>                                            pthread_mutexattr_t *attr,
+>                                            int robust);
+> PTW32_DLLPORT int PTW32_CDECL pthread_mutexattr_getrobust(
+>                                            const pthread_mutexattr_t * attr,
+>                                            int * robust);
+1013c1040
+< PTW32_DLLPORT int PTW32_CDECL pthread_mutex_timedlock(pthread_mutex_t *mutex,
+---
+> PTW32_DLLPORT int PTW32_CDECL pthread_mutex_timedlock(pthread_mutex_t * mutex,
+1019a1047,1048
+> PTW32_DLLPORT int PTW32_CDECL pthread_mutex_consistent (pthread_mutex_t * mutex);
+> 
+1149a1179
+> PTW32_DLLPORT unsigned __int64 PTW32_CDECL pthread_getunique_np(pthread_t thread);
+1186a1217,1220
+> /*
+>  * Returns the win32 thread ID for POSIX thread.
+>  */
+> PTW32_DLLPORT DWORD PTW32_CDECL pthread_getw32threadid_np (pthread_t thread);
+1213c1247
+< #ifndef _UWIN
+---
+> #if !defined(_UWIN)
+1217c1251
+< #    ifndef errno
+---
+> #    if !defined(errno)
+1227,1260d1260
+<  * WIN32 C runtime library had been made thread-safe
+<  * without affecting the user interface. Provide
+<  * mappings from the UNIX thread-safe versions to
+<  * the standard C runtime library calls.
+<  * Only provide function mappings for functions that
+<  * actually exist on WIN32.
+<  */
+< 
+< #if !defined(__MINGW32__)
+< #define strtok_r( _s, _sep, _lasts ) \
+<         ( *(_lasts) = strtok( (_s), (_sep) ) )
+< #endif /* !__MINGW32__ */
+< 
+< #define asctime_r( _tm, _buf ) \
+<         ( strcpy( (_buf), asctime( (_tm) ) ), \
+<           (_buf) )
+< 
+< #define ctime_r( _clock, _buf ) \
+<         ( strcpy( (_buf), ctime( (_clock) ) ),  \
+<           (_buf) )
+< 
+< #define gmtime_r( _clock, _result ) \
+<         ( *(_result) = *gmtime( (_clock) ), \
+<           (_result) )
+< 
+< #define localtime_r( _clock, _result ) \
+<         ( *(_result) = *localtime( (_clock) ), \
+<           (_result) )
+< 
+< #define rand_r( _seed ) \
+<         ( _seed == _seed? rand() : rand() )
+< 
+< 
+< /*
+1268c1268
+< #ifdef __cplusplus
+---
+> #if defined(__cplusplus)
+1289c1289
+< #ifndef PTW32_BUILD
+---
+> #if !defined(PTW32_BUILD)
+1291c1291
+< #ifdef __CLEANUP_SEH
+---
+> #if defined(__CLEANUP_SEH)
+1303c1303
+< #ifdef __CLEANUP_CXX
+---
+> #if defined(__CLEANUP_CXX)
+1309c1309
+< #ifdef _MSC_VER
+---
+> #if defined(_MSC_VER)
+1315c1315
+< #ifndef PtW32NoCatchWarn
+---
+> #if !defined(PtW32NoCatchWarn)
+1324c1324
+< #pragma message("    #ifdef PtW32CatchAll")
+---
+> #pragma message("    #if defined(PtW32CatchAll)")
+1352c1352
+< #ifdef __cplusplus
+---
+> #if defined(__cplusplus)
+1356c1356
+< #ifdef PTW32__HANDLE_DEF
+---
+> #if defined(PTW32__HANDLE_DEF)
+1359c1359
+< #ifdef PTW32__DWORD_DEF
+---
+> #if defined(PTW32__DWORD_DEF)
