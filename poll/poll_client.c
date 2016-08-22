@@ -7,9 +7,10 @@
 #include <time.h>
 #include <unistd.h>
 #include <sys/types.h>
+#include <arpa/inet.h>
 
 #define MAXLINE     1024
-#define IPADDRESS   "127.0.0.1"
+#define IPADDRESS   "192.168.10.111"
 #define SERV_PORT   8787
 
 #define max(a,b) (a > b) ? a : b
