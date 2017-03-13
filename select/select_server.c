@@ -43,10 +43,12 @@ static int create_server_proc(const char* ip,int port)
         return -1;
     }
 
+    /*
     int yes = 1;
     if (setsockopt(fd, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(int)) == -1) {  
         return -1;
     }
+    */
 
     int reuse = 1;
     if (setsockopt(fd, SOL_SOCKET, SO_REUSEADDR, &reuse, sizeof(reuse)) == -1) {
