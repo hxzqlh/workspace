@@ -59,8 +59,8 @@ int yuv_to_jpeg (unsigned char * picture_buf, unsigned iw, unsigned ih,
     pCodecCtx->codec_type = AVMEDIA_TYPE_VIDEO;
     pCodecCtx->pix_fmt = AV_PIX_FMT_YUVJ420P;
 
-    pCodecCtx->width  = ow;  
-    pCodecCtx->height = oh;
+    pCodecCtx->width = iw;  
+    pCodecCtx->height = ih;
 
     pCodecCtx->time_base.num = 1;  
     pCodecCtx->time_base.den = 25;   
@@ -78,14 +78,6 @@ int yuv_to_jpeg (unsigned char * picture_buf, unsigned iw, unsigned ih,
     }
     picture = av_frame_alloc();
     avpicture_fill ((AVPicture *)picture, NULL, pCodecCtx->pix_fmt, pCodecCtx->width, pCodecCtx->height);
-
-    struct SwsContext * sws_ctx = sws_getContext (iw, ih, AV_PIX_FMT_YUV420P, 
-                    ow, oh, AV_PIX_FMT_YUVJ420P, 
-                    SWS_BICUBIC , NULL, NULL, NULL);
-
-    AVPicture dst_pic;
-    avpicture_fill (&dst_pic, NULL, PIX_FMT_YUV420P, ow, oh);
-    sws_scale (sws_ctx, picture->data, picture->linesize, 0, ih, dst_pic.data, dst_pic.linesize)
 
     //Write Header
     avformat_write_header(pFormatCtx,NULL);
