@@ -1,0 +1,27 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.6	//
+CC	makefile	/^CC=g++ -g -shared -fPIC$/;"	m
+GCC	makefile	/^GCC=g++ -g$/;"	m
+OBJ1	makefile	/^OBJ1=test1.o$/;"	m
+OBJ2	makefile	/^OBJ2=test2.o$/;"	m
+OBJ3	makefile	/^OBJ3=main.o$/;"	m
+TEST_BASE_HPP	test_base.hpp	2;"	d
+call_base	test_base.hpp	/^        void call_base() {$/;"	f	class:test_base
+create	test1.cpp	/^extern "C" test_base* create() {$/;"	f
+create	test2.cpp	/^extern "C" test_base* create() {$/;"	f
+create_t	test_base.hpp	/^typedef test_base* create_t();$/;"	t
+destroy	test1.cpp	/^extern "C" void destroy(test_base* p) {$/;"	f
+destroy	test2.cpp	/^extern "C" void destroy(test_base* p) {$/;"	f
+destroy_t	test_base.hpp	/^typedef void destroy_t(test_base*);$/;"	t
+display	test1.cpp	/^    virtual void display() const {$/;"	f	class:test1
+display	test2.cpp	/^    virtual void display() const {$/;"	f	class:test2
+main	main.cpp	/^int main(int argc , char** argv) $/;"	f
+test1	test1.cpp	/^class test1 : public test_base {$/;"	c	file:
+test2	test2.cpp	/^class test2 : public test_base {$/;"	c	file:
+test_base	test_base.hpp	/^        test_base(){}$/;"	f	class:test_base
+test_base	test_base.hpp	/^class test_base {$/;"	c
+~test_base	test_base.hpp	/^        virtual ~test_base() {}$/;"	f	class:test_base
