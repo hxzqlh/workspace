@@ -28,7 +28,6 @@ int main (int argc, char * argv[])
      string str;
 
      while ((count = getline (&line, &len, sp.get ())) != -1) {
-         str                                 = line;
          if (regex_search (str, m, e_duration)) {
              printf ("%s\n", m.str (0).c_str ());
          }
